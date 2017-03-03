@@ -4,8 +4,9 @@
  Plugin URI: 
  Description: Custom Profile page for BP
  Author: GippslandWeb
- Version: 1.5
+ Version: 1.6
  Author URI: https://gippslandweb.com.au
+ GitHub Plugin URI: Gippsland-Web/gw-bp-profile
  */
 
 //Hack to remove default profile view, while letting edit function still work
