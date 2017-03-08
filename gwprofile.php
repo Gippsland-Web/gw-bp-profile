@@ -4,7 +4,7 @@
  Plugin URI: 
  Description: Custom Profile page for BP
  Author: GippslandWeb
- Version: 1.6.1
+ Version: 1.6.2
  Author URI: https://gippslandweb.com.au
  GitHub Plugin URI: Gippsland-Web/gw-bp-profile
  */
@@ -135,7 +135,7 @@ class GW_BP_Profile {
         'meta_query' => array(array('key' => 'user_id','value'=> bp_displayed_user_id())));
 
         $context = Timber::get_context();
-        $context['items'] = $items;
+
         $context['data'] = $data;
         $context['imgs'] = $this->gw_bp_get_galleries();
         $context['id'] = bp_displayed_user_id();//     
@@ -143,7 +143,7 @@ class GW_BP_Profile {
         $context['userreview']->bp_screen_scripts();
         $context['reviews'] = get_user_meta(bp_displayed_user_id(),'imported-review',false);
 
-        $context['title'] = $title;
+       
         $context['loggedin'] = is_user_logged_in();
         if(is_user_logged_in() && bp_displayed_user_id() == get_current_user_id()) {
             include('profile-nav-bar.php');    
