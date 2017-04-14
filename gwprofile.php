@@ -19,6 +19,7 @@ class GW_BP_Profile {
         add_action("ihc_action_after_subscription_activated",array($this,"gw_update_level"),10,2);
         add_action("ihc_action_after_subscription_delete",array($this,"gw_remove_level"),10,2);
         add_action("ihc_action_level_has_expired",array($this,"gw_remove_level"),10,2);
+        add_filter('login_redirect',array($this,'gw_login_redirect'),10,3);
      }
 
      //Hack to remove default profile view, while letting edit function still work
@@ -222,6 +223,14 @@ function gw_remove_level($userid, $levelid) {
     bp_set_member_type($userid, 'expired');
 }
 
+/*Redirect users to profile page on login*/
+
+function gw_login_redirect($redirect_to, $request, $user) {
+    //check if user is wwoofer or host or affiliate and send to page as requested
+    if(isset($user) && isset($user->id))
+        return bp_core_get_user_domain($user->id);
+    return $redirect_to;
+}
 
 
 
