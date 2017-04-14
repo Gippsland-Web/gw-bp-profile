@@ -4,7 +4,7 @@
  Plugin URI: 
  Description: Custom Profile page for BP
  Author: GippslandWeb
- Version: 1.6.2
+ Version: 1.6.3
  Author URI: https://gippslandweb.com.au
  GitHub Plugin URI: Gippsland-Web/gw-bp-profile
  */
@@ -13,7 +13,12 @@ class GW_BP_Profile {
     public function __construct() {
         add_filter('bp_get_displayed_user_nav_xprofile',array($this,'gw_filterprofile'));
         add_action( 'bp_setup_nav', array($this,'gw_bp_profile_new_nav_item'), 1000 );
-
+        add_action( 'bp_register_member_types', array($this,'bbg_register_member_types') );
+        
+        add_action("ihc_new_subscription_action",array($this,"gw_update_level"),10,2);
+        add_action("ihc_action_after_subscription_activated",array($this,"gw_update_level"),10,2);
+        add_action("ihc_action_after_subscription_delete",array($this,"gw_remove_level"),10,2);
+        add_action("ihc_action_level_has_expired",array($this,"gw_remove_level"),10,2);
      }
 
      //Hack to remove default profile view, while letting edit function still work
@@ -156,6 +161,69 @@ class GW_BP_Profile {
         }
     
     }
+
+
+
+
+
+
+
+//Setup our different buddy user levels.
+
+function bbg_register_member_types() {
+    bp_register_member_type( 'wwoofer', array(
+        'labels' => array(
+            'name'          => 'WWOOFERS',
+            'singular_name' => 'WWOOFER'
+        ),
+	'has_directory' => 'wwoofers'
+    ));
+
+    bp_register_member_type( 'host', array(
+        'labels' => array(
+            'name'          => "Host's",
+            'singular_name' => 'Host'
+        ),
+	'has_directory' => 'hosts'
+    ));
+
+	    bp_register_member_type( 'expired', array(
+        'labels' => array(
+            'name'          => "Expired User's",
+            'singular_name' => 'Expired User'
+        )
+    ));
+
+}
+
+/*
+UMP Hooks to connect member levels from UMP to BP
+*/
+function gw_update_level($userid, $levelid) {
+    switch($levelid)
+    {
+        case 6:
+        case 4: // wwoofer
+        bp_set_member_type($userid, 'wwoofer');
+
+        break;
+        
+        case 5: //Host
+        bp_set_member_type($userid, 'host');
+        break;
+        
+    default:
+        bp_set_member_type($userid, 'expired');
+    break;
+    }
+}
+
+function gw_remove_level($userid, $levelid) {
+    bp_set_member_type($userid, 'expired');
+}
+
+
+
 
 
 }
