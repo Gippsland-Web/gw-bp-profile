@@ -4,7 +4,7 @@
  Plugin URI: 
  Description: Custom Profile page for BP
  Author: GippslandWeb
- Version: 1.6.3
+ Version: 1.6.4
  Author URI: https://gippslandweb.com.au
  GitHub Plugin URI: Gippsland-Web/gw-bp-profile
  */
