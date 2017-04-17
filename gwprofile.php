@@ -4,7 +4,7 @@
  Plugin URI: 
  Description: Custom Profile page for BP
  Author: GippslandWeb
- Version: 1.6.4
+ Version: 1.6.5
  Author URI: https://gippslandweb.com.au
  GitHub Plugin URI: Gippsland-Web/gw-bp-profile
  */
@@ -20,8 +20,20 @@ class GW_BP_Profile {
         add_action("ihc_action_after_subscription_delete",array($this,"gw_remove_level"),10,2);
         add_action("ihc_action_level_has_expired",array($this,"gw_remove_level"),10,2);
         add_filter('login_redirect',array($this,'gw_login_redirect'),10,3);
+
+         add_action('bp_member_header_actions',array($this,'display_member_id') );
      }
 
+function display_member_id() {
+    echo('<div class="member-id">Member Number: ');
+    if(bp_get_member_type(bp_displayed_user_id()) == "wwoofer") {
+        echo('W'.bp_displayed_user_id());
+    }
+    else if(bp_get_member_type(bp_displayed_user_id()) == "host") {
+        echo('H'.bp_displayed_user_id());
+    }
+    echo('</div>');
+}
      //Hack to remove default profile view, while letting edit function still work
     function gw_filterprofile($content) {
         $content = array();
