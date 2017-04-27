@@ -4,7 +4,7 @@
  Plugin URI: 
  Description: Custom Profile page for BP
  Author: GippslandWeb
- Version: 1.6.7
+ Version: 1.6.8
  Author URI: https://gippslandweb.com.au
  GitHub Plugin URI: Gippsland-Web/gw-bp-profile
  */
@@ -239,8 +239,12 @@ function gw_remove_level($userid, $levelid) {
 
 function gw_login_redirect($redirect_to, $request, $user) {
     //check if user is wwoofer or host or affiliate and send to page as requested
-    if(isset($user) && isset($user->id) && !is_admin())
-        return bp_core_get_user_domain($user->id);
+    if(isset($user) && isset($user->id) && !is_admin()){
+        if(bp_get_member_type($user->id) == "host" || bp_get_member_type($user->id) == "wwoofer")
+                return bp_core_get_user_domain($user->id);
+        else
+            return get_site_url()."/affiliate-login-page";
+    }
     return $redirect_to;
 }
 
