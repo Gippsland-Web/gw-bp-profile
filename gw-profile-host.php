@@ -29,14 +29,14 @@
   <div class="col-sm-12 col-md-8 visible-sm visible-xs">  
     <div class="panel panel-success">
       <div class="panel-heading">
-        <h3 class="panel-title"><span class="icon-home"> </span> The Property</h3>
+        <h3 class="panel-title"><span class="icon-home"> </span> My Property</h3>
       </div>
       <div class="panel-body">
-        {% for item in data.TheProperty %}
-<div class="row">
-	<div class="col-md-4 col-sm-12"> <h4 class="{{item.icon}}">{{item.name|striptags}}</h4> </div>
-	<div class="col-md-8 col-sm-12"> <p>{{item.val}}</p> </div>
-</div>       
+        {% for item in data.MyProperty %}
+
+	 <h4 class="{{item.icon}}">{{item.name|striptags}}</h4> 
+	 <p>{{item.val}}</p>
+      
         
         {% endfor %}
       </div>
@@ -50,7 +50,7 @@
       </div>
       <div class="panel-body">
         {% for item in data.MyProfile %}
-        <h4>{{item.name}}</h4>
+        <h4 class="prosubs">{{item.name}}</h4>
         {{item.val}}
         {% endfor %}
       </div>
@@ -66,7 +66,7 @@
       </div>
       <div class="panel-body">
         {% for item in data.TheStay %}
-        <h4>{{item.name}}</h4>
+        <h4 class="prosubs">{{item.name}}</h4>
         {{item.val}}
         {% endfor %}
       </div>
@@ -80,7 +80,7 @@
       </div>
       <div class="panel-body">
         {% for item in data.Address %}
-        <h4>{{item.name}}</h4>
+        <h4 class="prosubs">{{item.name}}</h4>
 {% if loggedin %}
         {{item.val}}
 {% else %}
@@ -98,7 +98,7 @@
       </div>
       <div class="panel-body">
         {% for item in data.Contact %}
-        <h4>{{item.name}}</h4>
+        <h4 class="prosubs">{{item.name}}</h4>
         {% if loggedin %}
         {{item.val}}
 {% else %}
@@ -114,14 +114,14 @@
   <div class="col-sm-12 col-md-8 hidden-sm hidden-xs">  
     <div class="panel panel-success">
       <div class="panel-heading">
-        <h3 class="panel-title"><span class="icon-home"> </span> The Property</h3>
+        <h3 class="panel-title"><span class="icon-home"> </span> My Property</h3>
       </div>
       <div class="panel-body">
-        {% for item in data.TheProperty %}
-<div class="row">
-	<div class="col-md-4 col-sm-12"> <h4 class="{{item.icon}}">{{item.name|striptags}}</h4> </div>
-	<div class="col-md-8 col-sm-12"> <p>{{item.val}}</p> </div>
-</div>       
+        {% for item in data.MyProperty %}
+
+	 <h4 class="prosubs {{item.icon}}">{{item.name|striptags}}</h4> 
+	 <p>{{item.val}}</p> 
+       
     
         {% endfor %}
       </div>

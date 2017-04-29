@@ -1,7 +1,7 @@
 <!-- This just outputs every visible profile field that has any contents -->
 <div class="row">
   <div class="col-sm-12 col-md-12">
-    <div class="panel panel-default">
+    <div class="panel panel-success">
 <div class="panel-heading">
         <h3 class="panel-title"><span class="icon-picture"> </span> Gallery</h3>
       </div>
@@ -26,67 +26,118 @@
 
 
 <div class="row">
-  <div class="col-sm-12 col-md-12">  
+<!-- Visible on mobile -->
+  <div class="col-sm-12 col-md-8 visible-sm visible-xs">  
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        <h3 class="panel-title"><span class="icon-home"> </span> About Me</h3>
+      </div>
+      <div class="panel-body">
+        {% for item in data.AboutMe %}
+
+	 <h4 class="{{item.icon}}">{{item.name|striptags}}</h4> 
+	 <p>{{item.val}}</p>
+      
+        
+        {% endfor %}
+      </div>
+    </div>
+  </div> 
+  <!-- END VISIBLE MOBILE -->
+  
+  <div class="col-sm-12 col-md-4">  
     <div class="panel panel-success">
       <div class="panel-heading">
         <h3 class="panel-title"><span class="icon-user-1"> </span> My Profile</h3>
       </div>
       <div class="panel-body text-center">
         {% for item in data.MyProfile %}
-        <h4><strong>{{item.name}}</strong></h4>
+        <h4 class="prosubs">{{item.name}}</h4>
         {{item.val}}
         {% endfor %}
       </div>
     </div>
-  </div>  
-</div>
+    
+
+
+
 <!-- This just outputs every visible profile field that has any contents -->
-<div class="row">
-  <div class="col-sm-12 col-md-4">  
+
+  
     <div class="panel panel-success">
       <div class="panel-heading">
         <h3 class="panel-title"><span class="icon-two114"> </span> Attributes</h3>
       </div>
       <div class="panel-body">
         {% for item in data.PersonalAttributes %}
-        <h4>{{item.name}}</h4>
+        <h4 class="prosubs">{{item.name}}</h4>
         {{item.val}}
         {% endfor %}
       </div>
     </div>
-  </div>    
-  <div class="col-sm-12 col-md-4">  
+   
+
+  
+   
     <div class="panel panel-success">
       <div class="panel-heading">
         <h3 class="panel-title"><span class="icon-home"> </span> Address</h3>
       </div>
       <div class="panel-body">
         {% for item in data.Address %}
-        <h4>{{item.name}}</h4>
+        <h4 class="prosubs">{{item.name}}</h4>
         {{item.val}}
         {% endfor %}
       </div>
     </div>
-  </div>    
-  <div class="col-sm-12 col-md-4">  
+  
+ 
+   
     <div class="panel panel-success">
       <div class="panel-heading">
         <h3 class="panel-title"><span class="icon-phone"> </span> Contact</h3>
       </div>
       <div class="panel-body">
         {% for item in data.Contact %}
-        <h4>{{item.name}}</h4>
+        <h4 class="prosubs">{{item.name}}</h4>
         {{item.val}}
         {% endfor %}
       </div>
     </div>  
   </div>  
+
+
+
+<!-- HIDDEN ON MOBILE -->
+  <div class="col-sm-12 col-md-8 hidden-sm hidden-xs">   
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        <h3 class="panel-title"><span class="icon-user-1"> </span> About Me</h3>
+      </div>
+      <div class="panel-body text-center">
+        {% for item in data.AboutMe %}
+        <h4 class="prosubs">{{item.name}}</h4>
+        {{item.val}}
+        {% endfor %}
+      </div>
+    </div>
+  
+<!-- Calender shortcode -->
+<div class="row">
+<div class="col-sm-12 col-md-12">
+<div class="panel panel-success">
+      <div class="panel-heading">
+        <h3 class="panel-title"><span class="icon-calendar"> </span> Availability Calendar</h3>
+      </div>
+      <div class="panel-body">
+[gw-calendar]
+	</div>
+	</div>
 </div>
-
-
-
-
-
+</div>
+<!-- END CALENDAR -->
+  </div>
+</div>
 
 
 

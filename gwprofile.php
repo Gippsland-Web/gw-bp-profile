@@ -4,7 +4,7 @@
  Plugin URI: 
  Description: Custom Profile page for BP
  Author: GippslandWeb
- Version: 1.6.8
+ Version: 1.6.9
  Author URI: https://gippslandweb.com.au
  GitHub Plugin URI: Gippsland-Web/gw-bp-profile
  */
@@ -25,12 +25,16 @@ class GW_BP_Profile {
      }
 
 function display_member_id() {
-    echo('<div class="member-id">Member Number: ');
+    echo('<div class="member-id">No.: ');
+    $id = bp_displayed_user_id() + 10000;
     if(bp_get_member_type(bp_displayed_user_id()) == "wwoofer") {
-        echo('W'.bp_displayed_user_id() + 10000);
+        echo('W'. $id);
     }
     else if(bp_get_member_type(bp_displayed_user_id()) == "host") {
-        echo('H'.bp_displayed_user_id() + 10000);
+        echo('H'. $id);
+    }
+    else {
+        echo($id);
     }
     echo('</div>');
 }
