@@ -4,7 +4,7 @@
  Plugin URI: 
  Description: Custom Profile page for BP
  Author: GippslandWeb
- Version: 1.6.9
+ Version: 1.7.0
  Author URI: https://gippslandweb.com.au
  GitHub Plugin URI: Gippsland-Web/gw-bp-profile
  */
@@ -22,7 +22,61 @@ class GW_BP_Profile {
         add_filter('login_redirect',array($this,'gw_login_redirect'),10,3);
 
          add_action('bp_member_header_actions',array($this,'display_member_id') );
+
+         add_filter('bp_has_members',array($this,'filter_member_list'),10,3);
+         add_filter('bp_get_total_member_count',array($this,'filter_member_count'),10,1);
      }
+function filter_member_count($r) {
+   return $this->count_member_types('wwoofer') + $this->count_member_types('host'); 
+}
+
+function count_member_types( $member_type = '' ) {
+
+    global $wpdb;
+    $sql = array(
+        'select' => "SELECT t.slug, tt.count FROM {$wpdb->term_taxonomy} tt LEFT JOIN {$wpdb->terms} t",
+        'on'     => 'ON tt.term_id = t.term_id',
+        'where'  => $wpdb->prepare( 'WHERE tt.taxonomy = %s', 'bp_member_type' ),
+    );
+    $members_count = $wpdb->get_results( join( ' ', $sql ) );
+    $members_count = wp_filter_object_list( $members_count, array( 'slug' => $member_type ), 'and', 'count' );
+    $members_count = array_values( $members_count );
+    if( isset( $members_count[0] ) && is_numeric( $members_count[0] ) ) {
+        $members_count = $members_count[0];
+    }else{
+        $members_count = 0;
+    }
+    return (int)$members_count;
+}
+
+function filter_member_list($members_template_has_members, $members_templatee, $r) {
+
+//checks if we are filtering by type, if not force wwoofer/host    
+if(strlen($r['member_type']) < 3){
+    global $members_template;
+    $r['member_type'] = "host,wwoofer";
+    $members_template = new BP_Core_Members_Template(
+		$r['type'],
+		$r['page'],
+		$r['per_page'],
+		$r['max'],
+		$r['user_id'],
+		$r['search_terms'],
+		$r['include'],
+		$r['populate_extras'],
+		$r['exclude'],
+		$r['meta_key'],
+		$r['meta_value'],
+		$r['page_arg'],
+		$r['member_type'],
+		$r['member_type__in'],
+		$r['member_type__not_in']
+	);
+
+    return $members_template->member_count > 0;    
+}
+return $members_template_has_members;
+}
 
 function display_member_id() {
     echo('<div class="member-id">No.: ');
@@ -208,7 +262,8 @@ function bbg_register_member_types() {
         'labels' => array(
             'name'          => "Expired User's",
             'singular_name' => 'Expired User'
-        )
+        ),
+        'has_directory' => false
     ));
 
 }
