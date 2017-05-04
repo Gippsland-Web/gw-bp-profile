@@ -4,7 +4,7 @@
  Plugin URI: 
  Description: Custom Profile page for BP
  Author: GippslandWeb
- Version: 1.7.0
+ Version: 1.7.2
  Author URI: https://gippslandweb.com.au
  GitHub Plugin URI: Gippsland-Web/gw-bp-profile
  */
@@ -15,7 +15,7 @@ class GW_BP_Profile {
         add_action( 'bp_setup_nav', array($this,'gw_bp_profile_new_nav_item'), 1000 );
         add_action( 'bp_register_member_types', array($this,'bbg_register_member_types') );
         
-        add_action("ihc_new_subscription_action",array($this,"gw_update_level"),10,2);
+        //add_action("ihc_new_subscription_action",array($this,"gw_update_level"),10,2);
         add_action("ihc_action_after_subscription_activated",array($this,"gw_update_level"),10,2);
         add_action("ihc_action_after_subscription_delete",array($this,"gw_remove_level"),10,2);
         add_action("ihc_action_level_has_expired",array($this,"gw_remove_level"),10,2);
@@ -26,12 +26,12 @@ class GW_BP_Profile {
          add_filter('bp_has_members',array($this,'filter_member_list'),10,3);
          add_filter('bp_get_total_member_count',array($this,'filter_member_count'),10,1);
      }
+
 function filter_member_count($r) {
    return $this->count_member_types('wwoofer') + $this->count_member_types('host'); 
 }
 
 function count_member_types( $member_type = '' ) {
-
     global $wpdb;
     $sql = array(
         'select' => "SELECT t.slug, tt.count FROM {$wpdb->term_taxonomy} tt LEFT JOIN {$wpdb->terms} t",
@@ -154,7 +154,16 @@ function display_member_id() {
     function gw_get_icon_for_field($name) {
         return '';  
     }
+    function CanUserView($string) {
+        if($string != "Address" && $string != "Contact")
+        return true;
+        if(get_current_user_id() == 0)
+            return false;
+        if(bp_get_member_type(get_current_user_id()) != "wwoofer" && bp_get_member_type(get_current_user_id()) != "host")
+            return false;
+        return true;
 
+    }
     function GetXProfileFields() {       
         //$items = array();
         $data = new \stdClass();
@@ -165,8 +174,11 @@ function display_member_id() {
             {
                     //do_action( 'bp_before_profile_field_content' );
                     $title = bp_get_the_profile_group_name();
+
                 $title = str_replace(' ', '', $title);
                 $data->$title = array();
+                if(!$this->CanUserView($title))
+                    continue;
                     while ( bp_profile_fields() )
                     {
                         $item = new \stdClass();
@@ -298,7 +310,7 @@ function gw_remove_level($userid, $levelid) {
 
 function gw_login_redirect($redirect_to, $request, $user) {
     //check if user is wwoofer or host or affiliate and send to page as requested
-    if(isset($user) && isset($user->id) && !is_admin()){
+    if(isset($user) && isset($user->id) && !is_super_admin($user->id)){
         if(bp_get_member_type($user->id) == "host" || bp_get_member_type($user->id) == "wwoofer")
                 return bp_core_get_user_domain($user->id);
         else

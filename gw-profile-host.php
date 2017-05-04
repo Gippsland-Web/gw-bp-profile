@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row hidden-sm hidden-xs">
   <div class="col-sm-12 col-md-12">
     <div class="panel panel-success">
 <div class="panel-heading">
@@ -126,6 +126,8 @@
         {% endfor %}
       </div>
     </div>
+
+
 <!-- Calender shortcode -->
 <div class="row">
 <div class="col-sm-12 col-md-12">
@@ -140,9 +142,40 @@
 </div>
 </div>
 <!-- END CALENDAR -->
-  </div>  
+  </div> 
+  
+
+
+
+
+
 </div>
 
+
+<div class="row hidden-md hidden-lg">
+  <div class="col-sm-12 col-md-12">
+    <div class="panel panel-success">
+<div class="panel-heading">
+        <h3 class="panel-title"><span class="icon-picture"> </span> Gallery</h3>
+      </div>
+      <div class="panel-body">
+        <div class="mpp-g mpp-item-list mpp-media-list mpp-photo-list mpp-single-gallery-media-list mpp-single-gallery-photo-list">   
+            {% for item in imgs|slice(0,8) %}
+            <div class="mpp-u mpp-item mpp-media mpp-media-photo mpp-u-6-24">
+              <div class="mpp-item-entry mpp-media-entry mpp-photo-entry">       
+                <div class="mpp-container mpp-media-list mpp-activity-comment-photo-list" style="padding:5px;">		
+              <a href="{{item.src}}" data-mpp-context="photo">
+                <img src="{{item.thumb}}" class="mpp-attached-media-item"  title="" data-mpp-media-id="{{item.id}}">
+              </a>
+              </div>
+            </div>
+          </div>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
