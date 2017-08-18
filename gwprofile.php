@@ -4,7 +4,7 @@
  Plugin URI: 
  Description: Custom Profile page for BP
  Author: GippslandWeb
- Version: 1.7.2
+ Version: 1.7.3
  Author URI: https://gippslandweb.com.au
  GitHub Plugin URI: Gippsland-Web/gw-bp-profile
  */
@@ -286,12 +286,12 @@ UMP Hooks to connect member levels from UMP to BP
 function gw_update_level($userid, $levelid) {
     switch($levelid)
     {
-        case 6:
+        case 7:
         case 4: // wwoofer
         bp_set_member_type($userid, 'wwoofer');
 
         break;
-        
+        case 6:
         case 5: //Host
         bp_set_member_type($userid, 'host');
         break;
